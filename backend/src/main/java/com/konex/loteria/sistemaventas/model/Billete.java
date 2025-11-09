@@ -27,7 +27,7 @@ public class Billete {
     private BigDecimal precio;
 
     @Column(nullable=false)
-    private String estado;
+    private EstadoBillete estado;
 
     @Column(name = "fecha_venta")
     private java.time.LocalDateTime fechaVenta;
@@ -44,7 +44,7 @@ public class Billete {
 
     }
 
-    public Billete(String numero, BigDecimal precio, String estado, LocalDateTime fechaVenta, Sorteo sorteo, Cliente cliente){
+    public Billete(String numero, BigDecimal precio, EstadoBillete estado, LocalDateTime fechaVenta, Sorteo sorteo, Cliente cliente){
         this.numero = numero;
         this.precio = precio;
         this.estado = estado;
@@ -71,7 +71,7 @@ public class Billete {
     public void setPrecio(BigDecimal precio){
         this.precio = precio;
     }
-    public String getEstado(){
+    public EstadoBillete getEstado(){
         return estado;
     }
     public LocalDateTime getFechaVenta(){
@@ -81,7 +81,7 @@ public class Billete {
         this.fechaVenta = fechaVenta;
     }
 
-    public void setEstado(String estado){
+    public void setEstado(EstadoBillete estado){
         this.estado = estado;
     }
     public Sorteo getSorteo(){
