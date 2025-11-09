@@ -1,15 +1,17 @@
 package com.konex.loteria.sistemaventas.service;
 
-import com.konex.loteria.sistemaventas.dto.HistorialBilleteDTO;
-import com.konex.loteria.sistemaventas.model.Billete;
-import com.konex.loteria.sistemaventas.model.Sorteo;
-import com.konex.loteria.sistemaventas.repository.BilleteRepository;
-import com.konex.loteria.sistemaventas.repository.SorteoRepository; 
-import org.springframework.stereotype.Service;
-
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import org.springframework.stereotype.Service;
+
+import com.konex.loteria.sistemaventas.dto.HistorialBilleteDTO;
+import com.konex.loteria.sistemaventas.model.Billete;
+import com.konex.loteria.sistemaventas.model.EstadoBillete;
+import com.konex.loteria.sistemaventas.model.Sorteo;
+import com.konex.loteria.sistemaventas.repository.BilleteRepository;
+import com.konex.loteria.sistemaventas.repository.SorteoRepository;
 
 /**
  * Servicio para la logica de negocio relacionada con Billetes.
@@ -34,8 +36,9 @@ public class BilleteService {
 
    
         return billetesVendidos.stream()
-                .map(this::convertirAHistorialDTO) 
-                .collect(Collectors.toList()); 
+        .map((Billete b) -> convertirAHistorialDTO(b))
+        .collect(Collectors.toList());
+
     }
 
     
@@ -48,15 +51,18 @@ public class BilleteService {
     Billete nuevoBillete = new Billete();
     nuevoBillete.setNumero(numero);
     
-    nuevoBillete.setPrecio(precio.doubleValue());
+    nuevoBillete.setPrecio(precio);
     
-    nuevoBillete.setEstado("disponible"); 
+    nuevoBillete.setEstado(EstadoBillete.DISPONIBLE); 
     nuevoBillete.setSorteo(sorteo); 
 
     return billeteRepository.save(nuevoBillete);
 }
 
 
+    /**
+     * metodo auxiliar para convertir una entidad billete a su DTO correspondiente
+     */
     
     private HistorialBilleteDTO convertirAHistorialDTO(Billete billete) {
         
@@ -64,7 +70,7 @@ public class BilleteService {
 
         dto.setNumeroBillete(billete.getNumero());
         
-        dto.setPrecio(BigDecimal.valueOf(billete.getPrecio()));
+        dto.setPrecio(billete.getPrecio());
         
         dto.setFechaVenta(billete.getFechaVenta()); 
 

@@ -8,6 +8,7 @@ import com.konex.loteria.sistemaventas.repository.ClienteRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import com.konex.loteria.sistemaventas.model.EstadoBillete;
 
 import java.time.LocalDateTime;
 
@@ -34,11 +35,11 @@ public class VentaService {
         
         Cliente cliente = clienteRepository.findById(ventaDTO.getClienteId()).orElseThrow(() -> new EntityNotFoundException("Cliente no encontrado"));
      
-        if (!billete.getEstado().equals("DISPONIBLE")) {
+        if (!billete.getEstado().equals(EstadoBillete.DISPONIBLE)) {
             throw new IllegalStateException("El billete no está disponible para la venta");
         }
         billete.setCliente(cliente);
-        billete.setEstado("VENDIDO");
+        billete.setEstado(EstadoBillete.VENDIDO);
         billete.setFechaVenta(LocalDateTime.now());
 
         return billeteRepository.save(billete);

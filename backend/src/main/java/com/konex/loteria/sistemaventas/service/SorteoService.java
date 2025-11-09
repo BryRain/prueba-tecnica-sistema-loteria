@@ -1,11 +1,15 @@
 package com.konex.loteria.sistemaventas.service;
 
-import org.springframework.stereotype.Service;
-import com.konex.loteria.sistemaventas.repository.SorteoRepository;
-import com.konex.loteria.sistemaventas.model.Sorteo;
-import com.konex.loteria.sistemaventas.dto.SorteoCreacioDTO;
-import java.util.List;
 import java.time.LocalDate;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import org.springframework.stereotype.Service;
+
+import com.konex.loteria.sistemaventas.dto.SorteoCreacioDTO;
+import com.konex.loteria.sistemaventas.dto.SorteoRespuestaDTO;
+import com.konex.loteria.sistemaventas.model.Sorteo;
+import com.konex.loteria.sistemaventas.repository.SorteoRepository;
 
 @Service
 public class SorteoService {
@@ -54,8 +58,26 @@ public class SorteoService {
      * 
      * metodo para listar todos los sorteos en el sistema
      */
-    public List<Sorteo> listarSorteos(){
-        return sorteoRepository.findAll();
+    public List<SorteoRespuestaDTO> listarSorteos() {
+        List<Sorteo> sorteos = sorteoRepository.findAll();
+
+        return sorteos.stream()
+                .map(this::convertirASorteoDTO)
+                .collect(Collectors.toList());
+}
+
+
+    /**
+     * 
+     * metodo auxiliar para convertir una entidad sorteo a su DTO correspondiente
+     */
+    private SorteoRespuestaDTO convertirASorteoDTO(Sorteo sorteo) {
+        SorteoRespuestaDTO dto = new SorteoRespuestaDTO();
+        dto.setId(sorteo.getId());
+        dto.setNombre(sorteo.getNombre());
+        dto.setFecha(sorteo.getFecha());
+        return dto;
     }
+
 
 }
