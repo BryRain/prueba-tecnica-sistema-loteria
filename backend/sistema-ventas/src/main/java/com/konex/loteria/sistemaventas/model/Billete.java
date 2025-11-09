@@ -51,10 +51,8 @@ public class Billete {
         this.sorteo = sorteo;
         this.cliente = cliente;
     }
-
-    public long Id(){
+    public long getId(){
         return id;
-
     }
 
     public void setId(long id){
