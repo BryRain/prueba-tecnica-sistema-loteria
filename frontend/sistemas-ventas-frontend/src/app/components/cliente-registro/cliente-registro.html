@@ -1,0 +1,51 @@
+<h2>Registrar Nuevo Cliente</h2>
+
+<!-- 
+  (ngSubmit) llama al método registrarCliente() en tu .ts
+  #clienteForm="ngForm" es la referencia al formulario
+-->
+<form (ngSubmit)="registrarCliente()" #clienteForm="ngForm">
+  
+  <!-- Campo Nombre -->
+  <div>
+    <label for="nombre">Nombre:</label>
+    <input 
+      type="text" 
+      id="nombre" 
+      name="nombre"
+      [(ngModel)]="clienteModel.nombre"
+      required 
+      #nombreInput="ngModel">
+    
+    <!-- Mensaje de error si el campo está vacío y ha sido tocado -->
+    <div *ngIf="nombreInput.invalid && (nombreInput.dirty || nombreInput.touched)" style="color: red;">
+      El nombre es requerido.
+    </div>
+  </div>
+
+  <!-- Campo Correo -->
+  <div>
+    <label for="correo">Correo Electrónico:</label>
+    <input 
+      type="email" 
+      id="correo" 
+      name="correo"
+      [(ngModel)]="clienteModel.correo"
+      required
+      email
+      #correoInput="ngModel">
+    
+    <div *ngIf="correoInput.invalid && (correoInput.dirty || correoInput.touched)" style="color: red;">
+      <span *ngIf="correoInput.errors?.['required']">El correo es requerido.</span>
+      <span *ngIf="correoInput.errors?.['email']">El formato del correo no es válido.</span>
+    </div>
+  </div>
+
+  <!-- Botón de Envío (se deshabilita si el formulario no es válido) -->
+  <button type="submit" [disabled]="!clienteForm.form.valid">Registrar Cliente</button>
+</form>
+
+<!-- Mensaje de Éxito o Error -->
+<div *ngIf="mensaje" [style.color]="error ? 'red' : 'green'">
+  {{ mensaje }}
+</div>

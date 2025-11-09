@@ -1,0 +1,49 @@
+<h2>Ver Historial de Cliente</h2>
+
+<!-- Formulario de Búsqueda -->
+<form (ngSubmit)="buscarHistorial()">
+  <label for="idCliente">ID del Cliente:</label>
+  <input 
+    type="number" 
+    id="idCliente" 
+    name="idCliente"
+    [(ngModel)]="idClienteABuscar"
+    placeholder="Escribe el ID del Cliente">
+  
+  <button type="submit">Buscar Historial</button>
+</form>
+
+<!-- Sección de Resultados -->
+
+<!-- Mensaje de Cargando... -->
+<div *ngIf="cargando">
+  <p>Cargando historial...</p>
+</div>
+
+<!-- Mensaje de "No hay resultados" o Error -->
+<div *ngIf="!cargando && historial.length === 0 && mensaje">
+  <p>{{ mensaje }}</p>
+</div>
+
+<!-- Tabla de Resultados -->
+<table *ngIf="!cargando && historial.length > 0">
+  <thead>
+    <tr>
+      <th>Número de Billete</th>
+      <th>Precio</th>
+      <th>Fecha de Venta</th>
+      <th>Nombre del Sorteo</th>
+    </tr>
+  </thead>
+  <tbody>
+    <!-- Recorremos la lista de historial -->
+    <tr *ngFor="let item of historial">
+      <td>{{ item.numeroBillete }}</td>
+      <!-- Usamos el Pipe 'currency' para formatear el dinero -->
+      <td>{{ item.precio | currency:'COP':'$' }}</td>
+      <!-- Usamos el Pipe 'date' para formatear la fecha -->
+      <td>{{ item.fechaVenta | date:'medium' }}</td>
+      <td>{{ item.nombreSorteo }}</td>
+    </tr>
+  </tbody>
+</table>
