@@ -1,5 +1,7 @@
 package com.konex.loteria.sistemaventas.model;
 
+import java.time.LocalDateTime;
+
 import jakarta.persistence.*;
 
 /**
@@ -26,6 +28,9 @@ public class Billete {
     @Column(nullable=false)
     private String estado;
 
+    @Column(name = "fecha_venta")
+    private java.time.LocalDateTime fechaVenta;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "sorteo_id", nullable = false)
     private Sorteo sorteo;
@@ -38,10 +43,11 @@ public class Billete {
 
     }
 
-    public Billete(String numero, double precio, String estado, Sorteo sorteo, Cliente cliente){
+    public Billete(String numero, double precio, String estado, LocalDateTime fechaVenta, Sorteo sorteo, Cliente cliente){
         this.numero = numero;
         this.precio = precio;
         this.estado = estado;
+        this.fechaVenta = fechaVenta;
         this.sorteo = sorteo;
         this.cliente = cliente;
     }
@@ -68,6 +74,12 @@ public class Billete {
     }
     public String getEstado(){
         return estado;
+    }
+    public LocalDateTime getFechaVenta(){
+        return fechaVenta;
+    }
+    public void setFechaVenta(LocalDateTime fechaVenta){
+        this.fechaVenta = fechaVenta;
     }
 
     public void setEstado(String estado){
