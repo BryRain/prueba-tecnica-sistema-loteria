@@ -4,7 +4,7 @@ package com.konex.loteria.sistemaventas.model;
  * 
  * definicion de enums
  */
-public enum enums {
+public enum EstadoBillete {
 
     DISPONIBLE,
     VENDIDO
