@@ -3,7 +3,17 @@ package com.konex.loteria.sistemaventas.model;
 import java.time.LocalDate;
 import java.util.List;
 
-import jakarta.persistence.*;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
 
 /**
  * entidad que representa un sorteo de loteria ene el sistema
@@ -26,6 +36,7 @@ private String nombre;
 private LocalDate fecha;
 
 @OneToMany(mappedBy = "sorteo", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+@JsonIgnore
 private List<Billete> billetes;
 
 public Sorteo(){

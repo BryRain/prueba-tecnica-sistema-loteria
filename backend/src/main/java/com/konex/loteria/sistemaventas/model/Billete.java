@@ -3,6 +3,8 @@ package com.konex.loteria.sistemaventas.model;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -45,6 +47,7 @@ public class Billete {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "sorteo_id", nullable = false)
+    @JsonIgnore
     private Sorteo sorteo;
 
     @ManyToOne(fetch = FetchType.LAZY)
