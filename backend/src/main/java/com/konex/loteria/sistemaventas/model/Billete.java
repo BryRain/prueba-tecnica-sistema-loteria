@@ -1,9 +1,19 @@
 package com.konex.loteria.sistemaventas.model;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
-import jakarta.persistence.*;
-import java.math.BigDecimal;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 
 /**
  * entidad que representa un billete de loteria en el sistema
@@ -25,7 +35,8 @@ public class Billete {
 
     @Column(nullable=false)
     private BigDecimal precio;
-
+    
+    @Enumerated(EnumType.STRING)
     @Column(nullable=false)
     private EstadoBillete estado;
 
