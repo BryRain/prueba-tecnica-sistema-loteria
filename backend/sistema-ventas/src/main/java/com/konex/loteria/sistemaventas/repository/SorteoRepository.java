@@ -7,5 +7,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface  SorteoRepository  extends JpaRepository<Sorteo, Long> {
 
+    boolean existsByNombre(String nombre);
+
 
 }
