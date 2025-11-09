@@ -1,0 +1,48 @@
+package com.konex.loteria.sistemaventas.service;
+
+import com.konex.loteria.sistemaventas.model.Billete;
+import com.konex.loteria.sistemaventas.model.Cliente;
+import com.konex.loteria.sistemaventas.dto.VentaPeticionDTO;
+import com.konex.loteria.sistemaventas.repository.BilleteRepository;
+import com.konex.loteria.sistemaventas.repository.ClienteRepository;
+import jakarta.persistence.EntityNotFoundException;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.time.LocalDateTime;
+
+@Service
+public class VentaService {
+
+    private final BilleteRepository billeteRepository;
+    private final ClienteRepository clienteRepository;
+
+    public VentaService(BilleteRepository billeteRepository, ClienteRepository clienteRepository) {
+        this.billeteRepository = billeteRepository;
+        this.clienteRepository = clienteRepository;
+    }
+
+    /** 
+     * metodo para veder un billete a un cliente
+     * 
+     */
+    
+    @Transactional
+     public Billete venderBillete(VentaPeticionDTO ventaDTO){
+        
+        Billete billete = billeteRepository.findById(ventaDTO.getBilleteId()).orElseThrow(()-> new EntityNotFoundException("Billete no encontrado"));
+        
+        Cliente cliente = clienteRepository.findById(ventaDTO.getClienteId()).orElseThrow(() -> new EntityNotFoundException("Cliente no encontrado"));
+     
+        if (!billete.getEstado().equals("DISPONIBLE")) {
+            throw new IllegalStateException("El billete no está disponible para la venta");
+        }
+        billete.setCliente(cliente);
+        billete.setEstado("VENDIDO");
+        billete.setFechaVenta(LocalDateTime.now());
+
+        return billeteRepository.save(billete);
+    
+    }
+
+}
