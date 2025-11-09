@@ -3,6 +3,7 @@ package com.konex.loteria.sistemaventas.model;
 import java.time.LocalDateTime;
 
 import jakarta.persistence.*;
+import java.math.BigDecimal;
 
 /**
  * entidad que representa un billete de loteria en el sistema
@@ -23,7 +24,7 @@ public class Billete {
     private String numero;
 
     @Column(nullable=false)
-    private double precio;
+    private BigDecimal precio;
 
     @Column(nullable=false)
     private String estado;
@@ -43,7 +44,7 @@ public class Billete {
 
     }
 
-    public Billete(String numero, double precio, String estado, LocalDateTime fechaVenta, Sorteo sorteo, Cliente cliente){
+    public Billete(String numero, BigDecimal precio, String estado, LocalDateTime fechaVenta, Sorteo sorteo, Cliente cliente){
         this.numero = numero;
         this.precio = precio;
         this.estado = estado;
@@ -64,10 +65,10 @@ public class Billete {
     public void setNumero(String numero){
         this.numero = numero;
     }
-    public double getPrecio(){
+    public BigDecimal getPrecio(){
         return precio;
     }
-    public void setPrecio(double precio){
+    public void setPrecio(BigDecimal precio){
         this.precio = precio;
     }
     public String getEstado(){
