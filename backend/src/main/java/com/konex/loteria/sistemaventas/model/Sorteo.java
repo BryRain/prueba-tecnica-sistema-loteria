@@ -3,25 +3,27 @@ package com.konex.loteria.sistemaventas.model;
 import java.time.LocalDate;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import jakarta.persistence.*;
 
-/*
- * 
- * Entidad de sorteo para la gestion de ventas
- */
 @Entity
 @Table(name = "sorteos")
 public class Sorteo {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id; 
+    private long id;
 
     @Column(name = "nombre_sorteo", nullable = false)
+    @JsonProperty("nombreSorteo") // permite mapear JSON de Angular
     private String nombre;
 
     @Column(name = "fecha_sorteo", nullable = false)
+    @JsonProperty("fechaSorteo")
+    @JsonFormat(pattern = "yyyy-MM-dd") // para mapear correctamente el input type="date"
     private LocalDate fecha;
 
     @JsonManagedReference("sorteo-billetes")
@@ -36,6 +38,7 @@ public class Sorteo {
         this.billetes = billetes;
     }
 
+    // Getters y Setters
     public long getId() { return id; }
     public void setId(long id) { this.id = id; }
 

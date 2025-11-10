@@ -1,0 +1,28 @@
+<form (ngSubmit)="guardarSorteo()">
+  <div class="form-group">
+    <label>Nombre del sorteo:</label>
+    <input
+      type="text"
+      [(ngModel)]="sorteo.nombre"
+      name="nombre"
+      placeholder="Ej: Lotería de Bogotá"
+      required
+    />
+  </div>
+
+  <div class="form-group">
+    <label>Fecha del sorteo:</label>
+    <input
+      type="date"
+      [(ngModel)]="sorteo.fecha"
+      name="fecha"
+      required
+    />
+  </div>
+
+  <button type="submit">Crear Sorteo</button>
+</form>
+
+<p *ngIf="mensaje" [class.exito]="exito" [class.error]="!exito">
+  {{ mensaje }}
+</p>

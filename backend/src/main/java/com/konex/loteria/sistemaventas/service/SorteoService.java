@@ -27,19 +27,24 @@ public class SorteoService {
      * metodo para crear un sorteo en el sistema
      */
 
-     public Sorteo crearSorteo(SorteoCreacioDTO sorteoDTO){
+     public Sorteo crearSorteo(SorteoCreacioDTO sorteoDTO) {
 
+        // Validar nombre
         if (sorteoDTO.getNombre() == null || sorteoDTO.getNombre().isBlank()) {
             throw new IllegalArgumentException("El nombre del sorteo no puede estar vacío.");
         }
+
+        // Validar fecha
         if (sorteoDTO.getFecha() == null || sorteoDTO.getFecha().isBlank()) {
             throw new IllegalArgumentException("La fecha del sorteo no puede estar vacía.");
         }
 
+        // Validar que no exista sorteo con el mismo nombre
         if (sorteoRepository.existsByNombre(sorteoDTO.getNombre())) {
             throw new IllegalArgumentException("Ya existe un sorteo con el nombre: " + sorteoDTO.getNombre());
         }
 
+        // Parsear fecha de String a LocalDate
         LocalDate fechaParseada;
         try {
             fechaParseada = LocalDate.parse(sorteoDTO.getFecha());
@@ -47,16 +52,20 @@ public class SorteoService {
             throw new IllegalArgumentException("El formato de la fecha debe ser YYYY-MM-DD.");
         }
 
+        // Validar que la fecha no sea pasada
         if (fechaParseada.isBefore(LocalDate.now())) {
             throw new IllegalArgumentException("La fecha del sorteo no puede ser en el pasado.");
         }
 
+        // Crear entidad Sorteo
         Sorteo sorteo = new Sorteo();
         sorteo.setNombre(sorteoDTO.getNombre());
         sorteo.setFecha(fechaParseada);
-        
+
+        // Guardar en la base de datos
         return sorteoRepository.save(sorteo);
     }
+
     /**
      * 
      * metodo para listar todos los sorteos en el sistema
@@ -94,6 +103,11 @@ public class SorteoService {
 
     }
 
+    /**
+     * 
+     * metodo para buscar un sorteo por su id y devolver la entidad completa
+     * 
+     */
     public Sorteo buscarSorteoPorId(long id) {
         return sorteoRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Sorteo no encontrado con id: " + id));

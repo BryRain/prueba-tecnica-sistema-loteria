@@ -1,12 +1,8 @@
 <h2>Registrar Nuevo Cliente</h2>
 
-<!-- 
-  (ngSubmit) llama al método registrarCliente() en tu .ts
-  #clienteForm="ngForm" es la referencia al formulario
--->
+
 <form (ngSubmit)="registrarCliente()" #clienteForm="ngForm">
   
-  <!-- Campo Nombre -->
   <div>
     <label for="nombre">Nombre:</label>
     <input 
@@ -17,13 +13,11 @@
       required 
       #nombreInput="ngModel">
     
-    <!-- Mensaje de error si el campo está vacío y ha sido tocado -->
     <div *ngIf="nombreInput.invalid && (nombreInput.dirty || nombreInput.touched)" style="color: red;">
       El nombre es requerido.
     </div>
   </div>
 
-  <!-- Campo Correo -->
   <div>
     <label for="correo">Correo Electrónico:</label>
     <input 
@@ -41,11 +35,9 @@
     </div>
   </div>
 
-  <!-- Botón de Envío (se deshabilita si el formulario no es válido) -->
   <button type="submit" [disabled]="!clienteForm.form.valid">Registrar Cliente</button>
 </form>
 
-<!-- Mensaje de Éxito o Error -->
 <div *ngIf="mensaje" [style.color]="error ? 'red' : 'green'">
   {{ mensaje }}
 </div>

@@ -71,4 +71,16 @@ export class ApiService {
   public getClientes(): Observable<Cliente[]> {
     return this.http.get<Cliente[]>(`${this.API_URL}/clientes`);
   }
+
+   /**
+   * 
+   * registrar sorteo
+   */
+  crearSorteo(sorteo: { nombre: string, fecha: string }) {
+  return this.http.post(`${this.API_URL}/sorteos`, sorteo);
+}
+
+
+
+  
 }
