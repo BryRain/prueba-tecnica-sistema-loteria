@@ -5,7 +5,7 @@ import java.time.LocalDate;
 import lombok.Data;
 
 @Data
-public class SorteoRespuestaDTO {
+public class SorteoRespuestaDTO{
 
     private long id;
     private String nombre;

@@ -1,5 +1,7 @@
 package com.konex.loteria.sistemaventas.dto;
+import lombok.Data;
 
+@Data
 public class ClienteCreacionDTO {
 
     private String nombre;
