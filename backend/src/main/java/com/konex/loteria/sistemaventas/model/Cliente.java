@@ -2,14 +2,22 @@ package com.konex.loteria.sistemaventas.model;
 
 import java.util.List;
 
-import jakarta.persistence.*;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
-/**}
- * enidad que representa un cliente en el sistema
- * 
- * la relacion entre cliente y billete es de uno a muchos
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
+
+
+/*
+ * Entida de cliente para la gestion de ventas
  */
-
 @Entity
 @Table(name = "clientes")
 public class Cliente {
@@ -24,43 +32,27 @@ public class Cliente {
     @Column(name = "correo_cliente", nullable = false, unique = true)
     private String correo;
 
+    @JsonManagedReference("cliente-billetes")
     @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Billete> billetes;
 
-    public Cliente(){
+    public Cliente() {}
 
-    }
-
-    public Cliente(String nombre, String correo){
+    public Cliente(String nombre, String correo) {
         this.nombre = nombre;
         this.correo = correo;
     }
 
-    public long getId() {
-        return id;
-    }
-    public void setId(long id) {
-        this.id = id;
-    }
-    public String getNombre() {
-        return nombre;
-    }
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
-    public String getCorreo() {
-        return correo;
-    }
-    public void setCorreo(String correo) {
-        this.correo = correo;
-    }
 
-    public List<Billete> getBilletes() {
-        return billetes;
-    }
+    public long getId() { return id; }
+    public void setId(long id) { this.id = id; }
 
-    public void setBilletes(List<Billete> billetes) {
-        this.billetes = billetes;
-    }
+    public String getNombre() { return nombre; }
+    public void setNombre(String nombre) { this.nombre = nombre; }
 
+    public String getCorreo() { return correo; }
+    public void setCorreo(String correo) { this.correo = correo; }
+
+    public List<Billete> getBilletes() { return billetes; }
+    public void setBilletes(List<Billete> billetes) { this.billetes = billetes; }
 }

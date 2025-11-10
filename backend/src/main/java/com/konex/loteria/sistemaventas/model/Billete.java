@@ -3,7 +3,7 @@ package com.konex.loteria.sistemaventas.model;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -17,13 +17,6 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
-/**
- * entidad que representa un billete de loteria en el sistema
- * 
- * la realcion entre billete y sorteo es de muchos a uno
- * la relacion entre billetes y clientes es de muchos a uno
- */
-
 @Entity
 @Table(name = "billetes")
 public class Billete {
@@ -35,30 +28,29 @@ public class Billete {
     @Column(nullable = false, unique = true)
     private String numero;
 
-    @Column(nullable=false)
+    @Column(nullable = false)
     private BigDecimal precio;
-    
+
     @Enumerated(EnumType.STRING)
-    @Column(nullable=false)
+    @Column(nullable = false)
     private EstadoBillete estado;
 
     @Column(name = "fecha_venta")
-    private java.time.LocalDateTime fechaVenta;
+    private LocalDateTime fechaVenta;
 
+    @JsonBackReference("sorteo-billetes")
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "sorteo_id", nullable = false)
-    @JsonIgnore
     private Sorteo sorteo;
 
+    @JsonBackReference("cliente-billetes")
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "cliente_id", nullable = true)
+    @JoinColumn(name = "cliente_id")
     private Cliente cliente;
 
-    public Billete(){
+    public Billete() {}
 
-    }
-
-    public Billete(String numero, BigDecimal precio, EstadoBillete estado, LocalDateTime fechaVenta, Sorteo sorteo, Cliente cliente){
+    public Billete(String numero, BigDecimal precio, EstadoBillete estado, LocalDateTime fechaVenta, Sorteo sorteo, Cliente cliente) {
         this.numero = numero;
         this.precio = precio;
         this.estado = estado;
@@ -66,49 +58,25 @@ public class Billete {
         this.sorteo = sorteo;
         this.cliente = cliente;
     }
-    public long getId(){
-        return id;
-    }
 
-    public void setId(long id){
-        this.id = id;
-    }
-    public String getNumero(){
-        return numero;
-    }
-    public void setNumero(String numero){
-        this.numero = numero;
-    }
-    public BigDecimal getPrecio(){
-        return precio;
-    }
-    public void setPrecio(BigDecimal precio){
-        this.precio = precio;
-    }
-    public EstadoBillete getEstado(){
-        return estado;
-    }
-    public LocalDateTime getFechaVenta(){
-        return fechaVenta;
-    }
-    public void setFechaVenta(LocalDateTime fechaVenta){
-        this.fechaVenta = fechaVenta;
-    }
+    public long getId() { return id; }
+    public void setId(long id) { this.id = id; }
 
-    public void setEstado(EstadoBillete estado){
-        this.estado = estado;
-    }
-    public Sorteo getSorteo(){
-        return sorteo;
-    }
-    public void setSorteo(Sorteo sorteo){
-        this.sorteo = sorteo;
-    }
-    public Cliente getCliente(){
-        return cliente;
-    }
-    public void setCliente(Cliente cliente){
-        this.cliente = cliente;
-    }
+    public String getNumero() { return numero; }
+    public void setNumero(String numero) { this.numero = numero; }
 
+    public BigDecimal getPrecio() { return precio; }
+    public void setPrecio(BigDecimal precio) { this.precio = precio; }
+
+    public EstadoBillete getEstado() { return estado; }
+    public void setEstado(EstadoBillete estado) { this.estado = estado; }
+
+    public LocalDateTime getFechaVenta() { return fechaVenta; }
+    public void setFechaVenta(LocalDateTime fechaVenta) { this.fechaVenta = fechaVenta; }
+
+    public Sorteo getSorteo() { return sorteo; }
+    public void setSorteo(Sorteo sorteo) { this.sorteo = sorteo; }
+
+    public Cliente getCliente() { return cliente; }
+    public void setCliente(Cliente cliente) { this.cliente = cliente; }
 }
