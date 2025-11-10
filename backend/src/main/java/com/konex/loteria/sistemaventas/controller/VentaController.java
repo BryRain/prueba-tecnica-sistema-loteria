@@ -1,12 +1,18 @@
 package com.konex.loteria.sistemaventas.controller;
 
-import com.konex.loteria.sistemaventas.service.VentaService;
-import com.konex.loteria.sistemaventas.model.Billete;
-import com.konex.loteria.sistemaventas.dto.VentaPeticionDTO;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import jakarta.persistence.EntityNotFoundException;
+import com.konex.loteria.sistemaventas.dto.VentaPeticionDTO;
+import com.konex.loteria.sistemaventas.model.Billete;
+import com.konex.loteria.sistemaventas.service.VentaService;
 
+import jakarta.validation.Valid;
 
 @CrossOrigin(origins = "http://localhost:4200")
 @RestController
@@ -15,23 +21,25 @@ public class VentaController {
 
     private final VentaService ventaService;
 
+    
     public VentaController(VentaService ventaService){
         this.ventaService = ventaService;
     }
 
     /**
      * 
-     * endpoint para vernder un billete a un clietne
+     * endpoint para vernder un billete a un cliente
      */
 
     @PostMapping
-    public ResponseEntity<Billete> venderBillete(@RequestBody VentaPeticionDTO ventaDTO){
-     
-     try{
+public ResponseEntity<?> venderBillete(@Valid @RequestBody VentaPeticionDTO ventaDTO){
+    try {
         Billete billeteVendido = ventaService.venderBillete(ventaDTO);
-        return new ResponseEntity<>(billeteVendido, HttpStatus.OK);
-    } catch (RuntimeException e) {
-        return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
-    }}
+        return ResponseEntity.ok(billeteVendido);
+    } catch (EntityNotFoundException | IllegalStateException e) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body(e.getMessage());
+    }
+}
 
 }

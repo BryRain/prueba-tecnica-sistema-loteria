@@ -10,45 +10,70 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.konex.loteria.sistemaventas.dto.ClienteCreacionDTO;
+import com.konex.loteria.sistemaventas.dto.ClienteRespuestaDTO;
 import com.konex.loteria.sistemaventas.dto.HistorialBilleteDTO;
+import com.konex.loteria.sistemaventas.model.Billete;
 import com.konex.loteria.sistemaventas.model.Cliente;
-import com.konex.loteria.sistemaventas.service.BilleteService;
 import com.konex.loteria.sistemaventas.service.ClienteService;
 
+/**
+ * Controlador REST para gestionar los clientes del sistema.
+ */
 @CrossOrigin(origins = "http://localhost:4200")
 @RestController
 @RequestMapping("/api/clientes")
 public class ClienteController {
 
     private final ClienteService clienteService;
-    private final BilleteService billeteService;
 
-    public ClienteController(ClienteService clienteService, BilleteService billeteService) {
+    public ClienteController(ClienteService clienteService) {
         this.clienteService = clienteService;
-        this.billeteService = billeteService;
+    }
+
+    @GetMapping("/{id}/historial")
+    public ResponseEntity<List<HistorialBilleteDTO>> obtenerHistorial(@PathVariable long id) {
+        List<HistorialBilleteDTO> historial = clienteService.obtenerHistorialCliente(id);
+        return ResponseEntity.ok(historial);
+    }
+
+
+    /**
+     * Endpoint para crear un nuevo cliente.
+     */
+    @PostMapping
+    public ResponseEntity<ClienteRespuestaDTO> crearCliente(@RequestBody ClienteCreacionDTO clienteDTO) {
+        ClienteRespuestaDTO nuevoCliente = clienteService.crearCliente(clienteDTO);
+        return new ResponseEntity<>(nuevoCliente, HttpStatus.CREATED);
     }
 
     /**
-     * Endopoint para crear un nuevo cliente
+     * Endpoint para listar todos los clientes.
      */
-
-    @PostMapping
-    public ResponseEntity<Cliente> crearCliente (@RequestBody ClienteCreacionDTO clienteDTO){
-        Cliente nuevoCliente = clienteService.crearCliente(clienteDTO);
-        return new ResponseEntity<>(nuevoCliente, HttpStatus.CREATED);
-     }
+    @GetMapping
+    public ResponseEntity<List<ClienteRespuestaDTO>> listarClientes() {
+        List<ClienteRespuestaDTO> clientes = clienteService.listarClientes();
+        return ResponseEntity.ok(clientes);
+    }
 
     /**
-    * endpoint para consultar billetes comprados por un cliente
-    */
+     * Endpoint para buscar un cliente por su ID.
+     */
+    @GetMapping("/{id}")
+    public ResponseEntity<ClienteRespuestaDTO> obtenerClientePorId(@PathVariable long id) {
+        ClienteRespuestaDTO cliente = clienteService.buscarClientePorId(id);
+        return ResponseEntity.ok(cliente);
+    }
 
-    @GetMapping("/{idCliente}/historial")
-    public ResponseEntity<List<HistorialBilleteDTO>> consultarHistorialPorCliente(@PathVariable Long idCliente) {
-        List<HistorialBilleteDTO> historial = billeteService.consultarHistorialPorCliente(idCliente);
-        return new ResponseEntity<>(historial, HttpStatus.OK); 
+    /**
+     * Endpoint para buscar un cliente por su correo electrónico.
+     */
+    @GetMapping("/buscar")
+    public ResponseEntity<ClienteRespuestaDTO> obtenerClientePorCorreo(@RequestParam String correo) {
+        ClienteRespuestaDTO cliente = clienteService.buscarClientePorCorreo(correo);
+        return ResponseEntity.ok(cliente);
     }
 }
-
