@@ -1,6 +1,13 @@
 # prueba-tecnica-sistema-loteria
 Sistema de ventas de loteria desarrollado en spring boot y angular para la prueba tecnica
 
+##versiones
+
+- Angular CLI: 20.3.9
+- Node: 22.15.1
+- Apache Maven 3.9.11
+- Spring Boot 3.5.7
+
 ## Backend
 - Java + Spring Boot, base H2
 - Endpoints principales:
