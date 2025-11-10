@@ -19,6 +19,7 @@ import com.konex.loteria.sistemaventas.dto.HistorialBilleteDTO;
 import com.konex.loteria.sistemaventas.model.Billete;
 import com.konex.loteria.sistemaventas.model.Cliente;
 import com.konex.loteria.sistemaventas.service.ClienteService;
+import com.konex.loteria.sistemaventas.repository.ClienteRepository;
 
 /**
  * Controlador REST para gestionar los clientes del sistema.
@@ -29,16 +30,45 @@ import com.konex.loteria.sistemaventas.service.ClienteService;
 public class ClienteController {
 
     private final ClienteService clienteService;
+    private final ClienteRepository clienteRepository;
 
-    public ClienteController(ClienteService clienteService) {
+
+    public ClienteController(ClienteService clienteService, ClienteRepository clienteRepository) {
         this.clienteService = clienteService;
+        this.clienteRepository = clienteRepository;
+
     }
 
+    /**
+     * Endpoint para obtener el historial de billetes de un cliente por su ID.
+     */
     @GetMapping("/{id}/historial")
     public ResponseEntity<List<HistorialBilleteDTO>> obtenerHistorial(@PathVariable long id) {
         List<HistorialBilleteDTO> historial = clienteService.obtenerHistorialCliente(id);
         return ResponseEntity.ok(historial);
     }
+
+    /**
+     * Endpoint para buscar historial de billetes por nombre de cliente.
+     */
+    @GetMapping("/buscar")
+    public ResponseEntity<List<HistorialBilleteDTO>> buscarHistorialPorNombre(@RequestParam String nombre) {
+        List<Cliente> clientes = clienteRepository.findByNombreContainingIgnoreCase(nombre);
+
+        List<HistorialBilleteDTO> historial = clientes.stream()
+            .flatMap(cliente -> cliente.getBilletes().stream()
+                .map(billete -> new HistorialBilleteDTO(
+                    billete.getNumero(),
+                    billete.getPrecio(),
+                    billete.getFechaVenta(),
+                    billete.getSorteo().getNombre()
+                ))
+            )
+            .toList();
+
+        return ResponseEntity.ok(historial);
+    }
+
 
 
     /**
@@ -68,10 +98,12 @@ public class ClienteController {
         return ResponseEntity.ok(cliente);
     }
 
+    
+
     /**
      * Endpoint para buscar un cliente por su correo electrónico.
      */
-    @GetMapping("/buscar")
+    @GetMapping("/correo")
     public ResponseEntity<ClienteRespuestaDTO> obtenerClientePorCorreo(@RequestParam String correo) {
         ClienteRespuestaDTO cliente = clienteService.buscarClientePorCorreo(correo);
         return ResponseEntity.ok(cliente);

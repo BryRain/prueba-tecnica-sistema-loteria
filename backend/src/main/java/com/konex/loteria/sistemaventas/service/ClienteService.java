@@ -97,4 +97,13 @@ public class ClienteService {
     private ClienteRespuestaDTO mapToDTO(Cliente cliente) {
         return new ClienteRespuestaDTO(cliente.getId(), cliente.getNombre(), cliente.getCorreo());
     }
+
+    /**
+     * 
+     * metodo para buscar clientes por nombre 
+     */
+    public List<Cliente> buscarClientesPorNombre(String nombre) {
+    return clienteRepository.findByNombreContainingIgnoreCase(nombre);
+    }
+
 }

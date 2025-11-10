@@ -1,14 +1,18 @@
 package com.konex.loteria.sistemaventas.repository;
 
-import com.konex.loteria.sistemaventas.model.Billete;
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-import java.util.List;
+
+import com.konex.loteria.sistemaventas.model.Billete;
 
 
 @Repository
 public interface  BilleteRepository extends JpaRepository<Billete, Long>{
 
 List<Billete> findByClienteId(Long clienteId);
+
+List<Billete> findBySorteoId(Long sorteoId);
 
 }
