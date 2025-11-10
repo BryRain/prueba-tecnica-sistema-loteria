@@ -31,7 +31,7 @@ export class SorteoCrearComponent {
         }
       });
     } else {
-      this.mensaje = '⚠️ Debes llenar todos los campos.';
+      this.mensaje = 'Se debe llenar todos los campos.';
       this.exito = false;
     }
   }

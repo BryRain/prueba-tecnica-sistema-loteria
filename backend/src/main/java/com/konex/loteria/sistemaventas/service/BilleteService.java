@@ -33,7 +33,7 @@ public class BilleteService {
      * 
      * consulta el historial de billetes vendidos por un cliente
      */
-    
+
     public List<HistorialBilleteDTO> consultarHistorialPorCliente(Long idCliente) {
         
         List<Billete> billetesVendidos = billeteRepository.findByClienteId(idCliente);
@@ -45,7 +45,10 @@ public class BilleteService {
 
     }
 
-    
+    /**
+     * 
+     * crea un nuevo billete para un sorteo especifico
+     */
     public Billete crearBilleteParaSorteo(long idSorteo, String numero, BigDecimal precio) {
     
    
