@@ -1,1 +1,27 @@
-<p>sorteo-list works!</p>
+<h2 class="list-header">Listado de Sorteos Disponibles 🎟️</h2>
+
+<div *ngIf="cargando" class="cargando-mensaje">
+  <p>Cargando sorteos...</p>
+</div>
+
+<div *ngIf="!cargando && sorteos.length === 0" class="mensaje-vacio">
+  <p>No se encontraron sorteos. Por favor, verifica el backend o crea uno nuevo.</p>
+</div>
+
+<ul *ngIf="!cargando && sorteos.length > 0" class="sorteo-list">
+  
+  <li *ngFor="let sorteo of sorteos" class="sorteo-item">
+    <div class="sorteo-info">
+      <strong>
+        <a [routerLink]="['/sorteos', sorteo.id]" class="sorteo-link">
+          {{ sorteo.nombre }}
+        </a>
+      </strong>
+      <p>Fecha: {{ sorteo.fechaSorteo | date:'fullDate' }}</p>
+    </div>
+    
+    <a [routerLink]="['/sorteos', sorteo.id]" class="btn-ver">
+      Ver Billetes / Vender
+    </a>
+  </li>
+</ul>

@@ -1,0 +1,53 @@
+<h2>Billetes Disponibles para Sorteo ID: {{ sorteoId }}</h2>
+
+<div *ngIf="mensaje" [ngClass]="error ? 'mensaje-error' : 'mensaje-exito'">
+  {{ mensaje }}
+</div>
+
+<div class="control-venta">
+  <label for="cliente-select">Vender a:</label>
+  <select id="cliente-select" name="cliente" [(ngModel)]="clienteSeleccionadoId">
+    <option [ngValue]="null" disabled>-- Selecciona un cliente --</option>
+    <option *ngFor="let cliente of clientes" [value]="cliente.id">
+      {{ cliente.nombre }} ({{ cliente.correo }})
+    </option>
+  </select>
+</div>
+
+<table *ngIf="billetes.length > 0">
+  <thead>
+    <tr>
+      <th>Número</th>
+      <th>Precio</th>
+      <th>Estado</th>
+      <th>Acción</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let billete of billetes">
+      <td>{{ billete.numero }}</td>
+      <td>{{ billete.precio | currency:'COP':'$' }}</td>
+      <td>
+        <span class="estado" [ngClass]="billete.estado.toLowerCase()">
+          {{ billete.estado }}
+        </span>
+      </td>
+      <td>
+        <button 
+          *ngIf="billete.estado.toLowerCase() === 'disponible'"
+          (click)="vender(billete)"
+          class="btn-vender"
+          [disabled]="!clienteSeleccionadoId"> Vender
+        </button>
+        
+        <span *ngIf="billete.estado.toLowerCase() === 'vendido'" class="vendido-texto">
+          Vendido
+        </span>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<div *ngIf="billetes.length === 0" class="mensaje-alerta">
+  No se encontraron billetes para este sorteo o están agotados.
+</div>

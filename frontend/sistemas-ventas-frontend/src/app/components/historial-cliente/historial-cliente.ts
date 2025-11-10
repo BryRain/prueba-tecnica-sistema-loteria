@@ -1,34 +1,27 @@
 import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common'; // Para *ngIf, *ngFor, DatePipe, CurrencyPipe
-import { FormsModule } from '@angular/forms'; // Para [(ngModel)]
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { ApiService } from '../../services/api.service';
 
 @Component({
   selector: 'app-historial-cliente',
   standalone: true,
-  imports: [
-    CommonModule, // <-- Importa CommonModule
-    FormsModule   // <-- Importa FormsModule
-  ],
+  imports: [CommonModule, FormsModule],
   templateUrl: './historial-cliente.html',
-  styleUrl: './historial-cliente.css'
+  styleUrls: ['./historial-cliente.css']
 })
-// 1. Cambiamos el nombre de la clase
 export class HistorialClienteComponent {
 
-  // 2. Variables para el formulario y los resultados
-  public idClienteABuscar: number | null = null;
+  public nombreClienteABuscar: string = ''; 
   public historial: any[] = [];
   public cargando = false;
-  public mensaje = ''; // Para "No se encontraron resultados"
+  public mensaje = '';
 
-  // 3. Inyectamos el servicio
-  constructor(private apiService: ApiService) { }
+  constructor(private apiService: ApiService) {}
 
-  // 4. Método para buscar
   public buscarHistorial(): void {
-    if (!this.idClienteABuscar) {
-      this.mensaje = 'Por favor, introduce un ID de cliente.';
+    if (!this.nombreClienteABuscar.trim()) {
+      this.mensaje = 'Por favor, introduce un nombre de cliente.';
       this.historial = [];
       return;
     }
@@ -37,14 +30,13 @@ export class HistorialClienteComponent {
     this.historial = [];
     this.mensaje = '';
 
-    this.apiService.getHistorialCliente(this.idClienteABuscar).subscribe(
+    this.apiService.buscarHistorialPorNombre(this.nombreClienteABuscar).subscribe(
       (data) => {
+        this.historial = data;
         if (data.length === 0) {
           this.mensaje = 'No se encontraron billetes vendidos para este cliente.';
         }
-        this.historial = data;
         this.cargando = false;
-        console.log('Historial cargado:', data);
       },
       (error) => {
         this.mensaje = 'Error al cargar el historial.';

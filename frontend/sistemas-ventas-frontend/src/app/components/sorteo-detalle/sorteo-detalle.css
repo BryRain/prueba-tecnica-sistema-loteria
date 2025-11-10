@@ -1,0 +1,102 @@
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+th, td {
+  border: 1px solid #ddd;
+  padding: 12px;
+  text-align: left;
+  vertical-align: middle;
+}
+th {
+  background-color: #f4f4f4;
+}
+tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.control-venta {
+  margin-bottom: 20px;
+  padding: 15px;
+  background-color: #e3f2fd; 
+  border: 1px solid #bbdefb;
+  border-radius: 6px;
+  font-size: 1.1em;
+}
+.control-venta label {
+  margin-right: 10px;
+  font-weight: 600;
+  color: #1565c0;
+}
+.control-venta select {
+  padding: 8px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  font-size: 1em;
+  min-width: 300px;
+}
+
+
+.btn-vender {
+  background-color: #28a745; 
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+}
+.btn-vender:hover:not(:disabled) {
+  background-color: #218838;
+}
+.btn-vender:disabled {
+  background-color: #8ac08d; 
+  cursor: not-allowed;
+}
+
+.estado {
+  padding: 4px 8px;
+  border-radius: 4px;
+  color: white;
+  font-weight: 500;
+  text-transform: uppercase;
+}
+.estado.disponible {
+  background-color: #007bff; 
+}
+.estado.vendido {
+  background-color: #6c757d; 
+}
+.vendido-texto {
+  color: #6c757d;
+  font-style: italic;
+}
+
+.mensaje-exito {
+  color: #155724;
+  font-weight: bold;
+  padding: 10px;
+  background-color: #d4edda;
+  border: 1px solid #c3e6cb;
+  border-radius: 4px;
+  margin-bottom: 15px;
+}
+.mensaje-error {
+  color: #721c24;
+  font-weight: bold;
+  padding: 10px;
+  background-color: #f8d7da;
+  border: 1px solid #f5c6cb;
+  border-radius: 4px;
+  margin-bottom: 15px;
+}
+.mensaje-alerta {
+  padding: 10px;
+  color: #856404;
+  background-color: #fff3cd;
+  border: 1px solid #ffeeba;
+  border-radius: 4px;
+  margin-top: 20px;
+}
