@@ -10,6 +10,7 @@ import com.konex.loteria.sistemaventas.dto.SorteoCreacioDTO;
 import com.konex.loteria.sistemaventas.dto.SorteoRespuestaDTO;
 import com.konex.loteria.sistemaventas.model.Sorteo;
 import com.konex.loteria.sistemaventas.repository.SorteoRepository;
+import jakarta.persistence.EntityNotFoundException;
 
 @Service
 public class SorteoService {
@@ -19,6 +20,8 @@ public class SorteoService {
     public SorteoService(SorteoRepository sorteoRepository){
         this.sorteoRepository = sorteoRepository;
     }
+
+    
 
     /**
      * metodo para crear un sorteo en el sistema
@@ -79,5 +82,21 @@ public class SorteoService {
         return dto;
     }
 
+    /**
+     * 
+     * metodo para obtener un sorteo por su id
+     */
+    public SorteoRespuestaDTO obtenerSorteoPorId(Long id) {
+        Sorteo sorteo = sorteoRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Sorteo no encontrado con id: " + id));
+        return convertirASorteoDTO(sorteo);
+
+
+    }
+
+    public Sorteo buscarSorteoPorId(long id) {
+        return sorteoRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Sorteo no encontrado con id: " + id));
+    }
 
 }

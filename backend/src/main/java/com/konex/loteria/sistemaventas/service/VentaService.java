@@ -18,6 +18,11 @@ public class VentaService {
     private final BilleteRepository billeteRepository;
     private final ClienteRepository clienteRepository;
 
+    /**
+     * 
+     * Constructor de VentaService
+     * 
+     */
     public VentaService(BilleteRepository billeteRepository, ClienteRepository clienteRepository) {
         this.billeteRepository = billeteRepository;
         this.clienteRepository = clienteRepository;
@@ -29,21 +34,22 @@ public class VentaService {
      */
     
     @Transactional
-     public Billete venderBillete(VentaPeticionDTO ventaDTO){
-        
-        Billete billete = billeteRepository.findById(ventaDTO.getBilleteId()).orElseThrow(()-> new EntityNotFoundException("Billete no encontrado"));
-        
-        Cliente cliente = clienteRepository.findById(ventaDTO.getClienteId()).orElseThrow(() -> new EntityNotFoundException("Cliente no encontrado"));
-     
-        if (!billete.getEstado().equals(EstadoBillete.DISPONIBLE)) {
-            throw new IllegalStateException("El billete no está disponible para la venta");
-        }
-        billete.setCliente(cliente);
-        billete.setEstado(EstadoBillete.VENDIDO);
-        billete.setFechaVenta(LocalDateTime.now());
+    public Billete venderBillete(VentaPeticionDTO ventaDTO) {
+    Billete billete = billeteRepository.findById(ventaDTO.getBilleteId())
+            .orElseThrow(() -> new EntityNotFoundException("billete no encontrado"));
 
-        return billeteRepository.save(billete);
-    
+    Cliente cliente = clienteRepository.findById(ventaDTO.getClienteId())
+            .orElseThrow(() -> new EntityNotFoundException("cliente no encontrado"));
+
+    if (!billete.getEstado().equals(EstadoBillete.DISPONIBLE)) {
+        throw new IllegalStateException("el billete no est disponible para la venta");
     }
+
+    billete.setCliente(cliente);
+    billete.setEstado(EstadoBillete.VENDIDO);
+    billete.setFechaVenta(LocalDateTime.now());
+
+    return billeteRepository.save(billete);
+}
 
 }

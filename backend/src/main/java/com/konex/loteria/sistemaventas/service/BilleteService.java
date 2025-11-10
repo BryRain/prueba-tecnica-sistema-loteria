@@ -29,6 +29,10 @@ public class BilleteService {
         this.sorteoRepository = sorteoRepository;
     }
 
+    /**
+     * 
+     * consulta el historial de billetes vendidos por un cliente
+     */
     
     public List<HistorialBilleteDTO> consultarHistorialPorCliente(Long idCliente) {
         
@@ -59,6 +63,14 @@ public class BilleteService {
     return billeteRepository.save(nuevoBillete);
 }
 
+    /**
+    * 
+    *obtiene los billetes conectados con el sorteo 
+    */
+
+    public List<Billete> obtenerBilletesPorSorteo(long idSorteo) {
+        return billeteRepository.findBySorteoId(idSorteo);
+    }
 
     /**
      * metodo auxiliar para convertir una entidad billete a su DTO correspondiente
